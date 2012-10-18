@@ -36,7 +36,6 @@
       <HintPath>..\..\ajax\AjaxControlToolkit.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=2.9.0.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" />
     <Reference Include="MSCaptcha, Version=2.0.3733.36001, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -409,10 +408,8 @@
     <Content Include="images\up.gif" />
     <Content Include="images\vertical-dot.gif" />
     <Content Include="images\x.png" />
-    <Content Include="instructor\advisers_studentsview.aspx" />
     <Content Include="instructor\assessment_evaluation.aspx" />
     <Content Include="instructor\instructor_dashboard.aspx" />
-    <Content Include="instructor\instructor_studentsview.aspx" />
     <Content Include="instructor\instructor_subjects.aspx" />
     <Content Include="instructor\makeup_exam_list.aspx" />
     <Content Include="login.aspx" />
@@ -457,7 +454,6 @@
     <Content Include="parent\parent_select_child.aspx" />
     <Content Include="parent\parent_view_grades.aspx" />
     <Content Include="registration\signup_parent.aspx" />
-    <Content Include="SampleExporting.aspx" />
     <Content Include="scripts\jquery\jquery.js" />
     <Content Include="scripts\jquery\jquery.simplemodal.js" />
     <Content Include="scripts\jquery\modal_basic.js" />
@@ -511,13 +507,6 @@
     <Content Include="student\available_assessments.aspx" />
     <Content Include="student\change_password.aspx" />
     <Content Include="student\student_dashboard.aspx" />
-    <Compile Include="instructor\advisers_studentsview.aspx.cs">
-      <DependentUpon>advisers_studentsview.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="instructor\advisers_studentsview.aspx.designer.cs">
-      <DependentUpon>advisers_studentsview.aspx</DependentUpon>
-    </Compile>
     <Compile Include="instructor\assessment_evaluation.aspx.cs">
       <DependentUpon>assessment_evaluation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -531,13 +520,6 @@
     </Compile>
     <Compile Include="instructor\instructor_dashboard.aspx.designer.cs">
       <DependentUpon>instructor_dashboard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="instructor\instructor_studentsview.aspx.cs">
-      <DependentUpon>instructor_studentsview.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="instructor\instructor_studentsview.aspx.designer.cs">
-      <DependentUpon>instructor_studentsview.aspx</DependentUpon>
     </Compile>
     <Compile Include="instructor\instructor_subjects.aspx.cs">
       <DependentUpon>instructor_subjects.aspx</DependentUpon>
@@ -788,13 +770,6 @@
     </Compile>
     <Compile Include="registration\signup_parent.aspx.designer.cs">
       <DependentUpon>signup_parent.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SampleExporting.aspx.cs">
-      <DependentUpon>SampleExporting.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SampleExporting.aspx.designer.cs">
-      <DependentUpon>SampleExporting.aspx</DependentUpon>
     </Compile>
     <Compile Include="student\assessment_success.aspx.cs">
       <DependentUpon>assessment_success.aspx</DependentUpon>
