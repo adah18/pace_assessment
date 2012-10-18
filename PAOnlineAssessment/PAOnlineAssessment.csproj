@@ -439,8 +439,6 @@
     <Content Include="menus\subheader\subheader_parent.txt" />
     <Content Include="parent\change_password.aspx" />
     <Content Include="parent\edit_profile.aspx" />
-    <Content Include="parent\parents_dashboard.aspx" />
-    <Content Include="parent\parent_dashboard.aspx" />
     <Content Include="parent\parent_footer.ascx" />
     <Content Include="parent\parent_header.ascx" />
     <Content Include="parent\parent_menu\arrow.gif" />
@@ -716,20 +714,6 @@
     </Compile>
     <Compile Include="parent\edit_profile.aspx.designer.cs">
       <DependentUpon>edit_profile.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="parent\parents_dashboard.aspx.cs">
-      <DependentUpon>parents_dashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="parent\parents_dashboard.aspx.designer.cs">
-      <DependentUpon>parents_dashboard.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="parent\parent_dashboard.aspx.cs">
-      <DependentUpon>parent_dashboard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="parent\parent_dashboard.aspx.designer.cs">
-      <DependentUpon>parent_dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="parent\parent_footer.ascx.cs">
       <DependentUpon>parent_footer.ascx</DependentUpon>
