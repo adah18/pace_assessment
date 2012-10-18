@@ -35,7 +35,6 @@ namespace PAOnlineAssessment
         //Page Load Event
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Write("Version: " + System.Environment.Version.ToString());
             if (IsPostBack == false)
             {
                 Session.Clear();
