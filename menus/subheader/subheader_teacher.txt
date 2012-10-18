@@ -1,0 +1,26 @@
+﻿<li><a href="#" style="width: 1px;">&nbsp;</a></li>
+<li><a href="../../index.aspx" style="width: 100px;">Home</a></li> 
+<li><a href="#" style="width: 150px;">Maintenance Tools</a>
+	<ul>
+		<li><a href="../../maintenance/assessment_display_setting.aspx" style="width: 150px;">Display Maintenance</a></li>
+		<li><a href="../../maintenance/parent_maintenance_main.aspx" style="width: 150px;">Pending Parent Accounts</a></li>           
+		<li><a href="../../maintenance/pending_student_accounts.aspx" style="width: 150px;">Pending Student Accounts</a></li>
+		<li><a href="../../maintenance/quarter_maintenance.aspx" style="width: 150px;">Quarter Maintenance</a></li>
+		<li><a href="../../maintenance/student_maintenance_main.aspx" style="width: 150px;">Student Maintenance</a></li>
+		<li><a href="../../maintenance/usergroup_maintenance_main.aspx" style="width: 150px;">User Group Maintenance</a></li>
+		<li><a href="../../maintenance/user_maintenance_main.aspx" style="width: 150px;">User Maintenance</a></li>
+	</ul>
+</li>
+<li><a href="#" style="width: 175px;">Assessment Tools</a>
+	<ul>
+		<li><a href="../../assessment/quizcreation_main.aspx" style="width: 200px;">Assessment Maintenance</a></li>
+		<li><a href="../../assessment/quizcreation_addupdate.aspx" style="width: 200px;">Create Assessment</a></li>
+		<li><a href="../../assessment/questionpool_maintenance_manual.aspx" style="width: 200px;">Create Questions Manually</a></li>
+		<li><a href="../../assessment/questionpool_maintenance_main.aspx" style="width: 200px;">Questions Pool Maintenance</a></li> 
+		<li><a href="../../maintenance/topic_maintenance_main.aspx" style="width: 200px;">Topic Maintenance</a></li>
+		<li><a href="../../assessment/assessmenttype_maintenance_main.aspx" style="width: 200px;">Type Maintenance</a></li>             
+		<li><a href="../../assessment/questionpool_maintenance_upload.aspx" style="width: 200px;">Upload Questions from Excel File</a></li>      
+	</ul>
+</li> 
+<li><a href="javascript:VerifyLogout()" style="width: 80px;">Logout</a></li>   
+     
