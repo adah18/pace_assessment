@@ -1,0 +1,203 @@
+﻿.GridPagerButtons
+{
+    color: #3f5330;
+    font-family: Century Gothic;
+    font-size: 11px;
+    font-weight: bold;
+    vertical-align: middle;
+    height: 16px;
+}
+.PageHeader
+{
+    color: #2b401b;
+    font: Century Gothic;
+    font-size: 20px;
+    font-weight: bold;
+    vertical-align: top;
+}
+.PageHeaderAlternate
+{
+    color: #7f9e65;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    vertical-align: top;
+}
+.PageSubHeader
+{
+    color: #3f5330;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.PageSubHeaderAlternate
+{
+    color: #7f9e65;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.LoginSubNote
+{
+    padding: 0px;
+    margin: 0px;
+    color: #666666;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.ValidationNotice
+{
+    padding: 0px;
+    margin: 0px;
+    color: #FF0000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    vertical-align: middle;
+}
+.ButtonTemplate
+{
+    background-position: center center;
+    color: #999999;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    background-image: url('../../images/buttons/button_normal.png');
+    background-repeat: no-repeat;
+    text-align: center;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 27px;
+    text-transform: uppercase;
+}
+.ButtonTemplate:hover
+{
+    background-position: center center;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    background-image: url('../../images/buttons/button_hover.png');
+    background-repeat: no-repeat;
+    text-align: center;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 27px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.LinkButtonTemplate
+{
+    padding: 0px;
+    margin: 0px;
+    color: #3f5330;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.NormalText
+{
+    color: #666666;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+.FieldTitle
+{
+    color: #666666;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.LabelClass
+{
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+}
+
+.LargeButtonTemplate
+{
+    text-align: center;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 151px;
+    width: 156px;
+    background-image: url('../../images/buttons/large_button_normal.png');
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+.LargeButtonTemplate:hover
+{
+    text-align: center;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 151px;
+    width: 156px;
+    background-image: url('../../images/buttons/large_button_hover.png');
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+    cursor:pointer;
+}
+.TextboxTemplate
+{
+    color: #3f5330;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+.MediumButtonTemplate
+{
+    text-align: center;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 151px;
+    width: 156px;
+    background-image: url('../../images/buttons/medium_button_normal.png');
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+.MediumButtonTemplate:hover
+{
+    text-align: center;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 151px;
+    width: 156px;
+    background-image: url('../../images/buttons/medium_button_hover.png');
+    display: table-cell;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.modalBackground {
+  background-color:Gray;
+  filter:alpha(opacity=70);
+  opacity:0.7;
+}
