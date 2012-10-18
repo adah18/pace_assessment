@@ -142,8 +142,8 @@ namespace PAOnlineAssessment.instructor
                 Label lblSectionID = (Label)grdLoadSubjects.Rows[i].FindControl("lblSectionID");
 
                 ImageButton btnView = (ImageButton)grdLoadSubjects.Rows[i].FindControl("imgView");
-                string EditUrl = ResolveUrl(DefaultForms.frm_instructor_studentsview) + "?subid=" + lblSubjectID.Text + "&secid=" + lblSectionID.Text;
-                btnView.PostBackUrl = EditUrl;
+                //string EditUrl = ResolveUrl(DefaultForms.frm_instructor_studentsview) + "?subid=" + lblSubjectID.Text + "&secid=" + lblSectionID.Text;
+                //btnView.PostBackUrl = EditUrl;
             }
         }
         //create a site map
