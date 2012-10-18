@@ -83,7 +83,7 @@ namespace PAOnlineAssessment.Classes
                      frm_history_assessment_view,
                      frm_assessment_admin_add,
                      frm_assessment_admin_update,
-                     //frm_instructor_studentsview,
+                     frm_instructor_studentsview,
                      frm_student_gradesview,
                      frm_advisers_studentsview,
                      frm_makeup_exam_list,                     

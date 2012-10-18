@@ -908,7 +908,7 @@ namespace PAOnlineAssessment.Classes
            GForms.frm_history_assessment_view = "~/student/history_assessment_view.aspx";
            GForms.frm_assessment_admin_add = "~/assessment/assessment_admin_add.aspx";
            GForms.frm_assessment_admin_update = "~/assessment/assessment_admin_update.aspx";
-           //GForms.frm_instructor_studentsview = "~/instructor/instructor_studentsview.aspx";
+           GForms.frm_instructor_studentsview = "~/instructor/instructor_studentsview.aspx";
            GForms.frm_advisers_studentsview = "~/instructor/advisers_studentsview.aspx";
            GForms.frm_student_gradesview = "~/student/student_gradesview.aspx";
            GForms.frm_makeup_exam_list = "~/instructor/makeup_exam_list.aspx";
