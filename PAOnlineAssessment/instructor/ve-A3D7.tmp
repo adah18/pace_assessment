@@ -1,0 +1,618 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using PAOnlineAssessment.Classes;
+using System.Globalization;
+using System.Data.OleDb;
+using System.Data;
+
+namespace PAOnlineAssessment.instructor
+{
+    public partial class assessment_evaluation : System.Web.UI.Page
+    {
+        LoginUser LUser;
+
+        GlobalForms DefaultForms = new Collections().getDefaultForms();
+
+        Collections cls = new Collections();
+
+        List<Constructors.RegistrationTerm> oRegistrationTerm;
+
+        List<Constructors.Subject> oSubject;
+
+        List<Constructors.AssessmentType> oAssessmentType;
+
+        List<Constructors.AssessmentView> oAssessment;
+
+        List<Constructors.GradingView> oGradingView;
+
+        List<Constructors.StudentRegistrationView> oStudentListRegistration;
+
+        List<Constructors.StudentAccount> oStudentListAssessment;
+
+        List<Constructors.StudentAnswers> oStudentAnswer;
+
+        List<Constructors.User> UsersList;
+
+        List<Constructors.QuestionPool> OQuestion;
+
+        List<Constructors.AssessmentDetails> oAssessmentDetails;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            //Check if a User Is Logged In
+            try
+            {
+                LUser = (LoginUser)Session["LoggedUser"];
+                if (LUser.UserGroupID == "1" || LUser.UserGroupID == "3")
+                {
+
+                }
+                else
+                {
+                    Response.Write("<script>alert('Access Denied!'); window.location='" + ResolveUrl(DefaultForms.frm_index) + "';</script>");
+                }
+            }
+            //Redirect to Login Page when no User is logged in
+            catch
+            {
+                Response.Redirect(ResolveUrl(DefaultForms.frm_index));
+            }
+
+            if (!Page.IsPostBack)
+            {
+                LoadTeachers(conv.ToInt32(LUser.UserGroupID));
+
+                loadLevels();
+
+                loadSubjects();
+
+                loadSections();
+
+                loadAssessmentType();
+
+                loadAssessment();
+
+                loadAssessmentEvaluation();
+            }
+        }
+
+        protected void cboTeacher_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //load the levels
+            loadLevels();
+            //load the subjects
+            loadSubjects();
+            loadSections();
+            loadAssessment();
+            loadAssessmentEvaluation();
+        }
+
+        void loadAssessmentEvaluation()
+        {
+            double CountCorrect = 0;
+            double CountIncorrect = 0;
+            double TotalCount = 0;
+            int RowCount = 0;
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("RowCount"));
+            dt.Columns.Add(new DataColumn("QuestionID"));
+            dt.Columns.Add(new DataColumn("Question"));
+            dt.Columns.Add(new DataColumn("Correct"));
+            dt.Columns.Add(new DataColumn("Incorrect"));
+
+            oAssessmentDetails = new List<Constructors.AssessmentDetails>(cls.getAssessmentDetails());
+            OQuestion = new List<Constructors.QuestionPool>(cls.getQuestionPool());
+
+            oStudentAnswer = new List<Constructors.StudentAnswers>(cls.getStudentAnswersList());
+            oStudentListRegistration = new List<Constructors.StudentRegistrationView>(cls.getStudentRegistrationView());
+            oStudentListAssessment = new List<Constructors.StudentAccount>(cls.getStudentAccounts());
+
+            //loop through the list to get the students population
+            oStudentListRegistration.ForEach(slr =>
+                {
+                    if (slr.SectionID.ToString() == cboSection.SelectedValue && slr.LevelID.ToString() == cboGradeLevel.SelectedValue)
+                    {
+                        oStudentListAssessment.ForEach(sla =>
+                            {
+                                if (slr.StudentNumber == sla.StudentNumber)
+                                {
+                                    //count for the total population of students
+                                    TotalCount++;
+                                }
+                            });
+                    }
+                });
+
+            Label1.Text = TotalCount.ToString();
+            Label3.Text = TotalCount.ToString();
+
+            //loop through the list to get the correct and incorrect number;
+            oAssessmentDetails.ForEach(ad =>
+                {
+                    if (ad.AssessmentID.ToString() == cboAssessment.SelectedValue)
+                    {
+                        OQuestion.ForEach(q =>
+                            {
+                                if (ad.QuestionPoolID == q.QuestionPoolID)
+                                {
+                                    RowCount++;
+                                    CountCorrect = 0;
+                                    oStudentListRegistration.ForEach(slr =>
+                                    {
+                                        if (slr.SectionID.ToString() == cboSection.SelectedValue && slr.LevelID.ToString() == cboGradeLevel.SelectedValue)
+                                        {
+                                            oStudentListAssessment.ForEach(sla =>
+                                            {
+                                                if (slr.StudentNumber == sla.StudentNumber)
+                                                {
+                                                    oStudentAnswer.ForEach(sa =>
+                                                        {
+                                                            if (sa.AssessmentID.ToString() == cboAssessment.SelectedValue && sa.QuestionPoolID == ad.QuestionPoolID)
+                                                            {
+                                                                if (slr.StudentID == sa.StudentID)
+                                                                {
+                                                                    if (sa.SelectedAnswer.ToLower() == q.CorrectAnswer.ToLower())
+                                                                    {
+                                                                        CountCorrect++;
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                }
+                                            });
+                                        }
+                                    });
+
+                                    CountIncorrect = TotalCount - CountCorrect;
+                                    double CorrectPercent = (CountCorrect / TotalCount) * 100;
+                                    double InCorrectPercent = (CountIncorrect / TotalCount) * 100;
+                                    dt.Rows.Add(RowCount.ToString(), q.QuestionPoolID," " + q.Question, Math.Round(CorrectPercent, 0, MidpointRounding.AwayFromZero).ToString() , Math.Round(InCorrectPercent, 0, MidpointRounding.AwayFromZero).ToString());
+                                }
+                            });
+                    }
+                });
+
+            
+            dgStudent.DataSource = dt;
+            dgStudent.DataBind();
+
+            lblEasy.Text = "0";
+            lblHard.Text = "0";
+            double easy = 0;
+            double hard = 0;
+            if (dt.Rows.Count != 0)
+            {
+                foreach (DataRow drow in dt.Rows)
+                {
+                    //greater than num for the easy
+                    if (easy < Convert.ToDouble(drow[3].ToString()))
+                    {
+                        easy = Convert.ToDouble(drow[3].ToString());
+                    }
+
+                    if (hard < Convert.ToDouble(drow[4].ToString()))
+                    {
+                        hard = Convert.ToDouble(drow[4].ToString());
+                    }
+                }
+
+                foreach (DataRow drow in dt.Rows)
+                {
+                    if (easy > 0)
+                    {
+                        if (easy == Convert.ToDouble(drow[3].ToString()))
+                        {
+                            if (lblEasy.Text == "0")
+                                lblEasy.Text = drow[0].ToString();
+                            else
+                                lblEasy.Text = lblEasy.Text + ", " + drow[0].ToString();
+                        }
+                    }
+
+                    if (hard > 0)
+                    {
+                        if (hard == Convert.ToDouble(drow[4].ToString()))
+                        {
+                            if (lblHard.Text == "0")
+                                lblHard.Text = drow[0].ToString();
+                            else
+                                lblHard.Text = lblHard.Text + ", " + drow[0].ToString();
+                        }
+                    }
+                }
+            }
+            LoadPercentage();
+        }
+
+
+        void LoadPercentage()
+        {
+            double StudentScore = 0;
+            double StudentGrade = 0;
+            double TotalPoints = 0;
+            double Percentage = 0;
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("FirstRange"));
+            dt.Columns.Add(new DataColumn("LastRange"));
+            dt.Columns.Add(new DataColumn("Percentage"));
+            dt.Columns.Add(new DataColumn("Count"));
+            double c1 = 0;
+            double c2 = 0;
+            double c3 = 0;
+            double c4 = 0;
+            double c5 = 0;
+            double c6 = 0;
+            double c7 = 0;
+            double c8 = 0;
+            double c9 = 0;
+            double c10 = 0;
+
+            oAssessmentDetails = new List<Constructors.AssessmentDetails>(cls.getAssessmentDetails());
+            OQuestion = new List<Constructors.QuestionPool>(cls.getQuestionPool());
+
+            oStudentAnswer = new List<Constructors.StudentAnswers>(cls.getStudentAnswersList());
+            oStudentListRegistration = new List<Constructors.StudentRegistrationView>(cls.getStudentRegistrationView());
+            oStudentListAssessment = new List<Constructors.StudentAccount>(cls.getStudentAccounts());
+
+            //loop through the list to get the total points
+            oAssessmentDetails.ForEach(ad =>
+            {
+                if (ad.AssessmentID.ToString() == cboAssessment.SelectedValue)
+                {
+                    OQuestion.ForEach(q =>
+                    {
+                        if (ad.QuestionPoolID == q.QuestionPoolID)
+                        {
+                            //get the total points
+                            TotalPoints += Convert.ToDouble(ad.Points.ToString());
+                        }
+                    });
+                }
+            });
+
+            oStudentListRegistration.ForEach(slr =>
+            {
+                if (slr.SectionID.ToString() == cboSection.SelectedValue && slr.LevelID.ToString() == cboGradeLevel.SelectedValue)
+                {
+                    oStudentListAssessment.ForEach(sla =>
+                    {
+                        if (slr.StudentNumber == sla.StudentNumber && slr.SectionID.ToString() == cboSection.SelectedValue && slr.LevelID.ToString() == cboGradeLevel.SelectedValue)
+                        {
+                            StudentScore = 0;
+                            oAssessmentDetails.ForEach(ad =>
+                            {
+                                if (ad.AssessmentID.ToString() == cboAssessment.SelectedValue)
+                                {
+                                    OQuestion.ForEach(q =>
+                                    {
+                                        if (ad.QuestionPoolID == q.QuestionPoolID)
+                                        {
+                                            oStudentAnswer.ForEach(sa =>
+                                            {
+                                                if (sa.AssessmentID.ToString() == cboAssessment.SelectedValue && sa.QuestionPoolID == ad.QuestionPoolID)
+                                                {
+                                                    if (slr.StudentID == sa.StudentID)
+                                                    {
+                                                        if (sa.SelectedAnswer.ToLower() == q.CorrectAnswer.ToLower())
+                                                        {
+                                                            StudentScore += Convert.ToDouble(ad.Points.ToString());
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+
+                            StudentGrade = (StudentScore / TotalPoints) * 100;
+                            if (StudentGrade >= 0 && StudentGrade <= 10)
+                            {
+                                c1++;
+                            }
+                            else if (StudentGrade >= 11 && StudentGrade <= 20)
+                            {
+                                c2++;
+                            }
+                            else if (StudentGrade >= 21 && StudentGrade <= 30)
+                            {
+                                c3++;
+                            }
+                            else if (StudentGrade >= 31 && StudentGrade <= 40)
+                            {
+                                c4++;
+                            }
+                            else if (StudentGrade >= 41 && StudentGrade <= 50)
+                            {
+                                c5++;
+                            }
+                            else if (StudentGrade >= 51 && StudentGrade <= 60)
+                            {
+                                c6++;
+                            }
+                            else if (StudentGrade >= 61 && StudentGrade <= 70)
+                            {
+                                c7++;
+                            }
+                            else if (StudentGrade >= 71 && StudentGrade <= 80)
+                            {
+                                c8++;
+                            }
+                            else if (StudentGrade >= 81 && StudentGrade <= 90)
+                            {
+                                c9++;
+                            }
+                            else if (StudentGrade >= 91 && StudentGrade <= 100)
+                            {
+                                c10++;
+                            }
+                        }
+                    });
+                }
+            });
+
+            double TotalCount = Convert.ToDouble(Label1.Text);
+
+            if (TotalCount == 0)
+                TotalCount = 1;
+
+            Percentage = (c1 / TotalCount) * 100;
+            dt.Rows.Add("0", "10", Math.Round(Percentage,2,MidpointRounding.AwayFromZero).ToString(), c1.ToString());
+
+            Percentage = (c2 / TotalCount) * 100;
+            dt.Rows.Add("11", "20", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c2.ToString());
+
+            Percentage = (c3 / TotalCount) * 100;
+            dt.Rows.Add("21", "30", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c3.ToString());
+
+            Percentage = (c4 / TotalCount) * 100;
+            dt.Rows.Add("31", "40", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c4.ToString());
+
+            Percentage = (c5 / TotalCount) * 100;
+            dt.Rows.Add("41", "50", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c5.ToString());
+
+            Percentage = (c6 / TotalCount) * 100;
+            dt.Rows.Add("51", "60", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c6.ToString());
+
+            Percentage = (c7 / TotalCount) * 100;
+            dt.Rows.Add("61", "70", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c7.ToString());
+
+            Percentage = (c8 / TotalCount) * 100;
+            dt.Rows.Add("71", "80", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c8.ToString());
+
+            Percentage = (c9 / TotalCount) * 100;
+            dt.Rows.Add("81", "90", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c9.ToString());
+
+            Percentage = (c10 / TotalCount) * 100;
+            dt.Rows.Add("91", "100", Math.Round(Percentage, 2, MidpointRounding.AwayFromZero).ToString(), c10.ToString());
+
+            dgPercentage.DataSource = dt;
+            dgPercentage.DataBind();
+        }
+
+        void loadAssessment()
+        {
+            cboAssessment.Items.Clear();
+            cboAssessment.Items.Add("--- Select Assessment ---");
+            cboAssessment.Items[cboAssessment.Items.Count - 1].Value = "0";
+
+            oAssessment = new List<Constructors.AssessmentView>(cls.getAssessmentView());
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("AssessmentID"));
+            dt.Columns.Add(new DataColumn("Title"));
+
+            oAssessment.ForEach(a =>
+            {
+                if (a.UserID.ToString() == cboTeacher.SelectedValue && a.LevelID == Convert.ToInt32(cboGradeLevel.SelectedValue) && a.SubjectID == Convert.ToInt32(cboSubject.SelectedValue) && a.AssessmentTypeID == Convert.ToInt32(cboAssessmentType.SelectedValue))
+                {
+                    dt.Rows.Add(a.AssessmentID, a.Title);
+                }
+            });
+
+            foreach (DataRow dRow in dt.DefaultView.ToTable(true, new string[] { "AssessmentID", "Title" }).Rows)
+            {
+                cboAssessment.Items.Add(dRow[1].ToString());
+                cboAssessment.Items[cboAssessment.Items.Count - 1].Value = dRow[0].ToString();
+            }
+        }
+
+        void loadAssessmentType()
+        {
+            cboAssessmentType.Items.Clear();
+            cboAssessmentType.Items.Add("--- Select Assessment Type ---");
+            cboAssessmentType.Items[cboAssessmentType.Items.Count - 1].Value = "0";
+
+            oAssessmentType = new List<Constructors.AssessmentType>(cls.getAssessmentType());
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("AssessmentTypeID"));
+            dt.Columns.Add(new DataColumn("AssessmentDescription"));
+
+            oAssessmentType.ForEach(at =>
+            {
+                if (at.Status == "A")
+                    dt.Rows.Add(at.AssessmentTypeID, at.Description);
+            });
+
+            //Loop through Filtered Duplicate values in the DataTable
+            foreach (DataRow drow in dt.DefaultView.ToTable(true, new string[] { "AssessmentTypeID", "AssessmentDescription" }).Rows)
+            {
+                //Add to Grade / Level DropDownList
+                cboAssessmentType.Items.Add(drow[1].ToString());
+                cboAssessmentType.Items[cboAssessmentType.Items.Count - 1].Value = drow[0].ToString();
+            }
+        }
+
+        void LoadTeachers(int UserGroupID)
+        {
+            UsersList = new List<Constructors.User>(cls.getUsers());
+            UsersList.ForEach(ul =>
+            {
+                if (ul.UserGroupID == 3)
+                {
+                    cboTeacher.Items.Add(new ListItem(ul.LastName + ", " + ul.FirstName, ul.UserID.ToString()));
+                }
+            });
+            if (UserGroupID == 1)
+            {
+                cboTeacher.Enabled = true;
+            }
+            else
+            {
+                for (int i = 0; i < cboTeacher.Items.Count; i++)
+                {
+                    if (cboTeacher.Items[i].Value == LUser.UserID.ToString())
+                    {
+                        cboTeacher.Items[i].Selected = true;
+                    }
+                }
+                cboTeacher.Enabled = false;
+            }
+        }
+
+        void loadLevels()
+        {
+            cboGradeLevel.Items.Clear();
+            cboGradeLevel.Items.Add("--- Select Level ---");
+            cboGradeLevel.Items[cboGradeLevel.Items.Count - 1].Value = "0";
+
+            //Instantiate new List
+            oRegistrationTerm = new List<Constructors.RegistrationTerm>(cls.getRegistrationTerm());
+            oGradingView = new List<Constructors.GradingView>(cls.getGradingView());
+
+            //Create a DataTable containing the LevelID and LevelDescription
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("LevelID"));
+            dt.Columns.Add(new DataColumn("LevelDescription"));
+
+            oGradingView.ForEach(gv =>
+            {
+                if (gv.TeacherID.ToString() == cboTeacher.SelectedValue)
+                {
+                    //Loop through List of Registration Terms
+                    oRegistrationTerm.ForEach(rt =>
+                    {
+                        if (gv.LevelID == rt.LevelID)
+                        {
+                            //Add LevelID and LevelDescription to the Datatable
+                            dt.Rows.Add(rt.LevelID, rt.LevelDescription);
+                        }
+                    });
+                }
+            });
+
+            //Loop through Filtered Duplicate values in the DataTable
+            foreach (DataRow drow in dt.DefaultView.ToTable(true, new string[] { "LevelID", "LevelDescription" }).Rows)
+            {
+                //Add to Grade / Level DropDownList
+                cboGradeLevel.Items.Add(drow[1].ToString());
+                cboGradeLevel.Items[cboGradeLevel.Items.Count - 1].Value = drow[0].ToString();
+            }
+        }
+
+        void loadSubjects()
+        {
+            //clear all items that inside the combobox
+            cboSubject.Items.Clear();
+            cboSubject.Items.Add("--- Select Subject ---");
+            cboSubject.Items[cboSubject.Items.Count - 1].Value = "0";
+
+            oSubject = new List<Constructors.Subject>(new Collections().getSubjectList());
+            oGradingView = new List<Constructors.GradingView>(cls.getGradingView());
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("SubjectID"));
+            dt.Columns.Add(new DataColumn("SubjectDescription"));
+
+            oGradingView.ForEach(gv =>
+            {
+                if (gv.TeacherID.ToString() == cboTeacher.SelectedValue.ToString())
+                {
+                    oSubject.ForEach(s =>
+                    {
+                        if (s.LevelID == Convert.ToInt32(cboGradeLevel.SelectedValue) && gv.SubjectID == s.SubjectID)
+                        {
+                            dt.Rows.Add(s.SubjectID, s.Description);
+                        }
+                    });
+                }
+            });
+
+            foreach (DataRow dRow in dt.DefaultView.ToTable(true, new string[] { "SubjectID", "SubjectDescription" }).Rows)
+            {
+                cboSubject.Items.Add(dRow[1].ToString());
+                cboSubject.Items[cboSubject.Items.Count - 1].Value = dRow[0].ToString();
+            }
+        }
+
+        void loadSections()
+        {
+            cboSection.Items.Clear();
+            cboSection.Items.Add("--- Select Section ---");
+            cboSection.Items[cboSection.Items.Count - 1].Value = "0";
+
+            oRegistrationTerm = new List<Constructors.RegistrationTerm>(cls.getRegistrationTerm());
+            oGradingView = new List<Constructors.GradingView>(cls.getGradingView());
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("SectionID"));
+            dt.Columns.Add(new DataColumn("SectionDescription"));
+
+            oGradingView.ForEach(gv =>
+            {
+                if (gv.TeacherID.ToString() == cboTeacher.SelectedValue)
+                {
+                    oRegistrationTerm.ForEach(s =>
+                    {
+                        if (s.LevelID == Convert.ToInt32(cboGradeLevel.SelectedValue) && gv.SectionID == s.SectionID)
+                        {
+                            dt.Rows.Add(s.SectionID, s.SectionDescription);
+                        }
+                    });
+                }
+            });
+
+            foreach (DataRow dRow in dt.DefaultView.ToTable(true, new string[] { "SectionID", "SectionDescription" }).Rows)
+            {
+                cboSection.Items.Add(dRow[1].ToString());
+                cboSection.Items[cboSection.Items.Count - 1].Value = dRow[0].ToString();
+            }
+        }
+
+        protected void cboGradeLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadSubjects();
+            loadSections();
+            loadAssessment();
+            loadAssessmentEvaluation();
+        }
+
+        protected void cboSection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadAssessmentEvaluation();
+        }
+
+        protected void cboSubject_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadAssessment();
+            loadAssessmentEvaluation();
+        }
+
+        protected void cboAssessmentType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadAssessment();
+            loadAssessmentEvaluation();
+        }
+
+        protected void lnkView_Click(object sender, EventArgs e)
+        {
+            loadAssessmentEvaluation();
+        }
+    }
+}

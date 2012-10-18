@@ -1,0 +1,17 @@
+<li><a href="#" style="width: 1px;">&nbsp;</a></li>
+<li><a href="../../index.aspx" style="width: 100px;">Home</a></li>
+<li><a href="#" style="width: 150px;">Academic Activities</a>
+	<ul>
+		<li><a href="../../parent/parent_view_grades.aspx" style="width: 150px;">Child's Grades</a></li>
+		<li><a href="../../parent/parent_select_child.aspx" style="width: 150px;">Select Child</a></li>
+	</ul>
+</li>
+<li><a href="#" style="width: 150px;">Account Settings</a>
+	<ul>
+		<li><a href="../../parent/change_password.aspx" style="width: 150px;">Change Password</a></li>
+		<li><a href="../../parent/edit_profile.aspx" style="width: 150px;">Edit Profile</a></li>
+	</ul>
+
+</li> 
+<li><a href="javascript:VerifyLogout()" style="width: 80px;">Logout</a></li>   
+     

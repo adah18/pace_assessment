@@ -1,0 +1,15 @@
+﻿<li><a href="#" style="width: 1px;">&nbsp;</a></li>
+<li><a href="../../login.aspx" style="width: 100px;">Login</a></li>
+<li><a style="width: 100px;">Sign up</a>
+<ul>
+<li><a href="../../registration/signup.aspx" style="width: 100px;">Student</a></li>
+
+<li><a href="../../registration/signup_parent.aspx" style="width: 100px;">Parent</a></li>
+
+</ul>
+</li>
+
+
+
+     
+     
