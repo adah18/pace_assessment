@@ -1,0 +1,10 @@
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\bin\bin\AjaxControlToolkit.dll
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\bin\bin\MSCaptcha.dll
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\bin\PAOnlineAssessment.dll
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\bin\PAOnlineAssessment.pdb
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\bin\AjaxControlToolkit.pdb
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\PAOnlineAssessment.Properties.Resources.resources
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\PAOnlineAssessment.csproj.GenerateResource.Cache
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\PAOnlineAssessment.dll
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\PAOnlineAssessment.pdb
