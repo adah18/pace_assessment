@@ -7,3 +7,4 @@ C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessmen
 C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\PAOnlineAssessment.csproj.GenerateResource.Cache
 C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\PAOnlineAssessment.dll
 C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\obj\Debug\PAOnlineAssessment.pdb
+C:\Users\I3 Business Solution\Documents\GitHub\pace_assessment\PAOnlineAssessment\bin\AjaxControlToolkit.pdb
